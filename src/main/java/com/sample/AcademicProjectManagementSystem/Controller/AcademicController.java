@@ -3,18 +3,15 @@ package com.sample.AcademicProjectManagementSystem.Controller;
 import com.sample.AcademicProjectManagementSystem.Service.AcademicService;
 import com.sample.AcademicProjectManagementSystem.Users.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 @Controller
 @RestController
@@ -44,6 +41,10 @@ public void createHod(@RequestBody Hod hod){
     @RequestMapping(value = "/adminLog",method = RequestMethod.POST)
     public void adminLog(@RequestBody Admin admin) throws NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
         academicService.loginAdmin(admin.getEmailId(), admin.getPassword());
+    }
+   @GetMapping(value = "/viewStudents")
+    public List<Student> viewStudents() {
+      return academicService.getStudents();
     }
 
 

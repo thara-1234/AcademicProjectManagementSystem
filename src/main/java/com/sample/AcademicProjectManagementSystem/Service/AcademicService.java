@@ -15,6 +15,7 @@ import java.security.InvalidKeyException;
 import java.security.Key;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
+import java.util.List;
 
 import static javax.crypto.Cipher.SECRET_KEY;
 
@@ -58,7 +59,10 @@ public class AcademicService {
         }
         return a;
     }
-
+    public List<Student> getStudents(){
+        List<Student> studentsList=studentRepository.findAll();
+        return studentsList;
+    }
     @Autowired
     HodRepository hodRepository;
     public void createAnHod(Hod hod){
