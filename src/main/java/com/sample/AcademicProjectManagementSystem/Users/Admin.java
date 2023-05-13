@@ -14,6 +14,8 @@ public class Admin {
     @Column(name = "email_id")
     String emailId;
 
+    String password;
+
     public int getIdNo() {
         return idNo;
     }
@@ -44,5 +46,13 @@ public class Admin {
 
     public void setEmailId(String emailId) {
         this.emailId = emailId;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
