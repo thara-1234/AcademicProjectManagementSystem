@@ -16,6 +16,7 @@ public class Admin {
 
     String password;
 
+
     public int getIdNo() {
         return idNo;
     }

@@ -64,6 +64,13 @@ public class AcademicService {
         return studentsList;
     }
     @Autowired
+    ProjectRepository projectRepository;
+    public void createAProject(Project project)   {
+
+         projectRepository.save(project);
+    }
+
+    @Autowired
     HodRepository hodRepository;
     public void createAnHod(Hod hod){
         if (hod.getPhNo().length()!=10) {

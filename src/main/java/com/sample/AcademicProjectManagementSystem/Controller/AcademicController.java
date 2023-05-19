@@ -46,10 +46,8 @@ public void createHod(@RequestBody Hod hod){
     public List<Student> viewStudents() {
       return academicService.getStudents();
     }
-
-
-
-
-
-
+    @PostMapping(value = "/projects")
+    public void createAllProjects(@RequestBody Project project) throws Exception {
+        academicService.createAProject(project);
+    }
 }
