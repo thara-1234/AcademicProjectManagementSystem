@@ -1,9 +1,12 @@
-package com.sample.AcademicProjectManagementSystem.Users;
+package com.sample.AcademicProjectManagementSystem.Entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.sample.AcademicProjectManagementSystem.Enum.UserRole;
 import jakarta.persistence.*;
 
 @Entity
-public class Student {
+public class Users {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id_no")
@@ -13,8 +16,10 @@ public class Student {
     String phNo;
     @Column(name = "email_id")
     String emailId;
+    String username;
     String password;
-    String role;
+    @JsonProperty("role")
+   UserRole role;
     String department;
     String status;
 
@@ -50,6 +55,14 @@ public class Student {
         this.emailId = emailId;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public String getPassword() {
         return password;
     }
@@ -58,12 +71,12 @@ public class Student {
         this.password = password;
     }
 
-    public String getRole() {
+    public UserRole getRole() {
         return role;
     }
 
-    public void setRole(String role) {
-        this.role = role;
+    public void setRole(UserRole input) {
+        role=input;
     }
 
     public String getDepartment() {
@@ -81,7 +94,5 @@ public class Student {
     public void setStatus(String status) {
         this.status = status;
     }
+
 }
-
-
-
