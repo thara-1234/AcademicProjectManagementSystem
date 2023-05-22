@@ -61,7 +61,4 @@ public class AcademicService {
             users.setPassword(encryptedMessage);
         }
        usersRepository.save(users);
-    }
-
-
-}
+    }}
