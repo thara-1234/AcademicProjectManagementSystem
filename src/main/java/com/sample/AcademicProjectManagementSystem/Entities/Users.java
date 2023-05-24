@@ -2,6 +2,7 @@ package com.sample.AcademicProjectManagementSystem.Entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sample.AcademicProjectManagementSystem.Enum.UserRole;
+import com.sample.AcademicProjectManagementSystem.Enum.UserRoleConverter;
 import jakarta.persistence.*;
 
 @Entity
@@ -19,7 +20,8 @@ public class Users {
     String username;
     String password;
     @JsonProperty("role")
-   UserRole role;
+    @Convert(converter = UserRoleConverter.class)
+  UserRole role;
     String department;
     String status;
 
@@ -78,7 +80,6 @@ public class Users {
     public void setRole(UserRole input) {
         role=input;
     }
-
     public String getDepartment() {
         return department;
     }
@@ -94,5 +95,7 @@ public class Users {
     public void setStatus(String status) {
         this.status = status;
     }
+
+
 
 }

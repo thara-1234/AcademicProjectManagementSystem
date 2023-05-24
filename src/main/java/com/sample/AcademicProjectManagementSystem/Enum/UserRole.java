@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum UserRole {
-
     ADMIN(1),
     HOD(2),
     INTERNAL_GUIDE(3),
@@ -32,11 +31,4 @@ public enum UserRole {
         throw new IllegalArgumentException("Invalid UserRole value: " + value);
     }
 
-
-
 }
-
-
-
-
-
