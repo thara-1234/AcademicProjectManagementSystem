@@ -2,14 +2,13 @@ package com.sample.AcademicProjectManagementSystem.Entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.sample.AcademicProjectManagementSystem.Enum.UserRole;
-import com.sample.AcademicProjectManagementSystem.Enum.UserRoleConverter;
 import jakarta.persistence.*;
 
 @Entity
 public class Users {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id_no")
     int idNo;
     String name;
@@ -20,8 +19,7 @@ public class Users {
     String username;
     String password;
     @JsonProperty("role")
-    @Convert(converter = UserRoleConverter.class)
-    UserRole role;
+   UserRole role;
     String department;
     String status;
 

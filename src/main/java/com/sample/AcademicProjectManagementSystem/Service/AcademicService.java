@@ -15,6 +15,8 @@ import java.security.InvalidKeyException;
 import java.security.Key;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 import static com.sample.AcademicProjectManagementSystem.Enum.UserRole.*;
 
@@ -27,20 +29,6 @@ public class AcademicService {
 
     public void createAUser(Users users) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
 
-        if (users.getRole().equals(ADMIN)) {
-            users.setRole(ADMIN);}
-           else if (users.getRole().equals(UserRole.HOD)) {
-            users.setRole(UserRole.HOD);
-        } else if (users.getRole().equals(UserRole.INTERNAL_GUIDE)) {
-            users.setRole(UserRole.INTERNAL_GUIDE);
-        } else if (users.getRole().equals(UserRole.PROJECT_IN_CHARGE)) {
-            users.setRole(UserRole.PROJECT_IN_CHARGE);
-        }
-        else {
-            users.setRole(UserRole.STUDENT);
-        }
-
-
         if (users.getPhNo().length()!=10) {
             throw new IllegalArgumentException("Invalid Phone Number");
         }
@@ -51,14 +39,21 @@ public class AcademicService {
         if (users.getPassword().length()<=6 && users.getPassword().matches("[a-zA-Z0-9]")) {
             throw new IllegalArgumentException("Invalid Password");
         }
-        else{
-            Key key = new SecretKeySpec(SECRET_KEY.getBytes(), "AES");
+        usersRepository.save(users);
+    }
+    public Users getUserById(int id) {
+        return usersRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("User not found with ID: " + id));
+    }
 
-            Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding");
-            cipher.init(Cipher.ENCRYPT_MODE, key);
-            byte[] encryptedBytes = cipher.doFinal(users.getPassword().getBytes());
-            String encryptedMessage = Base64.getEncoder().encodeToString(encryptedBytes);
-            users.setPassword(encryptedMessage);
-        }
-       usersRepository.save(users);
-    }}
+    public void updateUser(Users users) {
+        usersRepository.save(users);
+    }
+}
+
+
+
+
+
+
+

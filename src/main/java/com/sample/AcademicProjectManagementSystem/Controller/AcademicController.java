@@ -6,11 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
+import java.util.Map;
+
 
 @Controller
 @RestController
@@ -19,8 +16,21 @@ public class AcademicController {
     AcademicService academicService;
 
     @RequestMapping(value = "/userReg",method = RequestMethod.POST)
-public void createHod(@RequestBody Users users) throws NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, InvalidKeyException {
+    public void createUsers(@RequestBody Users users) throws Exception {
         academicService.createAUser(users);
     }
+    @RequestMapping(value = "/user/{id}", method = RequestMethod.PUT)
+    public void updateUser(@PathVariable int id, @RequestBody Map<String, String> userUpdateMap) throws Exception {
+        Users users = academicService.getUserById(id);
 
+        if (userUpdateMap.containsKey("username")) {
+            users.setUsername(userUpdateMap.get("username"));
+        }
+        if (userUpdateMap.containsKey("password")) {
+            users.setPassword(userUpdateMap.get("password"));
+        }
+        academicService.updateUser(users);
+    }
 }
+
+
