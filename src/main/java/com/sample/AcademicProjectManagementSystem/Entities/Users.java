@@ -1,6 +1,7 @@
 package com.sample.AcademicProjectManagementSystem.Entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.sample.AcademicProjectManagementSystem.Enum.ApprovalStatus;
 import com.sample.AcademicProjectManagementSystem.Enum.UserRole;
 import com.sample.AcademicProjectManagementSystem.Enum.UserRoleConverter;
 import jakarta.persistence.*;
@@ -15,7 +16,7 @@ public class Users {
     String name;
     @Column(name = "ph_no")
     String phNo;
-    @Column(name = "email_id")
+    @Column(name = "email_id",unique = true)
     String emailId;
     String username;
     String password;
@@ -24,6 +25,9 @@ public class Users {
    UserRole role;
     String department;
     String status;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "approval_status")
+    ApprovalStatus approvalStatus;
 
     public int getIdNo() {
         return idNo;
@@ -97,4 +101,11 @@ public class Users {
         this.status = status;
     }
 
+    public ApprovalStatus getApprovalStatus() {
+        return approvalStatus;
+    }
+
+    public void setApprovalStatus(ApprovalStatus approvalStatus) {
+        this.approvalStatus = approvalStatus;
+    }
 }

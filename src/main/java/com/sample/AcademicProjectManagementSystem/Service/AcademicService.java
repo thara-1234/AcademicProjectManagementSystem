@@ -1,24 +1,19 @@
 package com.sample.AcademicProjectManagementSystem.Service;
 
-import com.sample.AcademicProjectManagementSystem.Enum.UserRole;
+import com.sample.AcademicProjectManagementSystem.Enum.ApprovalStatus;
 import com.sample.AcademicProjectManagementSystem.Repository.*;
 import com.sample.AcademicProjectManagementSystem.Entities.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.BadPaddingException;
-import javax.crypto.Cipher;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
-import javax.crypto.spec.SecretKeySpec;
 import java.security.InvalidKeyException;
-import java.security.Key;
 import java.security.NoSuchAlgorithmException;
-import java.util.Base64;
+import java.util.Collections;
+import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
-
-import static com.sample.AcademicProjectManagementSystem.Enum.UserRole.*;
 
 @Service
 public class AcademicService {
@@ -39,17 +34,27 @@ public class AcademicService {
         if (users.getPassword().length()<=6 && users.getPassword().matches("[a-zA-Z0-9]")) {
             throw new IllegalArgumentException("Invalid Password");
         }
+        users.setApprovalStatus(ApprovalStatus.PENDING);
         usersRepository.save(users);
     }
     public Users getUserById(int id) {
         return usersRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("User not found with ID: " + id));
     }
+    public Users getUserByEmailId(String emailId) {
+        return usersRepository.findByEmailId(emailId);
+    }
 
     public void updateUser(Users users) {
         usersRepository.save(users);
     }
-}
+    public List<Users> getPendingRegistrations(String emailId) {
+        Users user = usersRepository.findByEmailId(emailId);
+        if (user != null && user.getApprovalStatus() == ApprovalStatus.PENDING) {
+            return Collections.singletonList(user);
+        } else {
+            return Collections.emptyList();
+        }}}
 
 
 
