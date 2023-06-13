@@ -3,7 +3,9 @@ package com.sample.AcademicProjectManagementSystem.Service;
 import com.sample.AcademicProjectManagementSystem.Enum.ApprovalStatus;
 import com.sample.AcademicProjectManagementSystem.Repository.*;
 import com.sample.AcademicProjectManagementSystem.Entities.*;
+import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.BadPaddingException;
@@ -19,10 +21,7 @@ import java.util.NoSuchElementException;
 public class AcademicService {
     @Autowired
     UsersRepository usersRepository;
-
-    final String SECRET_KEY = "a1b2c3d4e5f6g7h8i9j10k11l12m13n1";
-
-    public void createAUser(Users users) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException {
+    public void createAUser(Users users) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidKeyException, IllegalBlockSizeException, BadPaddingException, NotFoundException {
 
         if (users.getPhNo().length()!=10) {
             throw new IllegalArgumentException("Invalid Phone Number");
@@ -34,12 +33,11 @@ public class AcademicService {
         if (users.getPassword().length()<=6 && users.getPassword().matches("[a-zA-Z0-9]")) {
             throw new IllegalArgumentException("Invalid Password");
         }
+        if(usersRepository.countByEmailId(users.getEmailId())>0){
+            throw new NotFoundException("Already registered emailId");
+        }
         users.setApprovalStatus(ApprovalStatus.PENDING);
         usersRepository.save(users);
-    }
-    public Users getUserById(int id) {
-        return usersRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("User not found with ID: " + id));
     }
     public Users getUserByEmailId(String emailId) {
         return usersRepository.findByEmailId(emailId);

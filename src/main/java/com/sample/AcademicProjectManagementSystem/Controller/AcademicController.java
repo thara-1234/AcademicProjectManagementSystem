@@ -18,13 +18,13 @@ public class AcademicController {
     @Autowired
     AcademicService academicService;
 
-    @RequestMapping(value = "/userReg",method = RequestMethod.POST)
+    @PostMapping("/userReg")
     public void createUsers(@RequestBody Users users) throws Exception {
         academicService.createAUser(users);
     }
-    @RequestMapping(value = "/user/{id}", method = RequestMethod.PUT)
-    public void updateUser(@PathVariable int id, @RequestBody Map<String, String> userUpdateMap) throws Exception {
-        Users users = academicService.getUserById(id);
+    @PutMapping("/user/{emailId}")
+    public void updateUser(@PathVariable String emailId, @RequestBody Map<String, String> userUpdateMap) throws Exception {
+        Users users = academicService.getUserByEmailId(emailId);
         if (userUpdateMap.containsKey("username")) {
             users.setUsername(userUpdateMap.get("username"));
         }
@@ -33,21 +33,27 @@ public class AcademicController {
         }
         academicService.updateUser(users);
     }
-    @RequestMapping(value = "/newUsers", method = RequestMethod.GET)
+    @GetMapping("/newUsers")
     public List<Users> getAllPendingRegistrations(@RequestParam("emailId") String emailId) {
         return academicService.getPendingRegistrations(emailId);
     }
-    @RequestMapping(value = "/userApproval/{emailId}",method = RequestMethod.POST)
-    public void approveUserRegistration(@PathVariable String emailId){
+    @PostMapping("/userApproval/{emailId}")
+    public void approveUserRegistration(@PathVariable String emailId, @RequestParam String approvalStatus) {
         Users user = academicService.getUserByEmailId(emailId);
         if (user != null) {
-            user.setApprovalStatus(ApprovalStatus.APPROVED);
-            academicService.updateUser(user);
+            if (approvalStatus.equalsIgnoreCase("APPROVED")) {
+                user.setApprovalStatus(ApprovalStatus.APPROVED);
+            } else if (approvalStatus.equalsIgnoreCase("REJECTED")) {
+                user.setApprovalStatus(ApprovalStatus.REJECTED);
+            } else {
+                throw new IllegalArgumentException("Invalid approval status: " + approvalStatus);
+            }
 
+            academicService.updateUser(user);
         } else {
             throw new NoSuchElementException("User not found with email ID: " + emailId);
-        }
-    }}
+        }}
+}
 
 
 
