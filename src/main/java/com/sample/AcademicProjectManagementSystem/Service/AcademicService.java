@@ -5,7 +5,6 @@ import com.sample.AcademicProjectManagementSystem.Repository.*;
 import com.sample.AcademicProjectManagementSystem.Entities.*;
 import javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.BadPaddingException;
@@ -15,7 +14,7 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Collections;
 import java.util.List;
-import java.util.NoSuchElementException;
+
 
 @Service
 public class AcademicService {
