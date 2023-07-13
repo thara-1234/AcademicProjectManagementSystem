@@ -47,11 +47,9 @@ public class AcademicController {
             if (approvalStatus.equalsIgnoreCase("APPROVED")) {
                 user.setApprovalStatus(ApprovalStatus.APPROVED);
                 academicService.updateUser(user);
-                emailService.sendApprovalNotification(user.getEmailId());
             } else if (approvalStatus.equalsIgnoreCase("REJECTED")) {
                 user.setApprovalStatus(ApprovalStatus.REJECTED);
                 academicService.updateUser(user);
-                emailService.sendRejectionNotification(user.getEmailId());
             } else {
                 throw new IllegalArgumentException("Invalid approval status: " + approvalStatus);
             }
